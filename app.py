@@ -48,11 +48,11 @@ def improve_text_with_openai(text, api_key):
     api_key = api_key,
     )
     response = client.completions.create(
-  model = "gpt-3.5-turbo-instruct",
-  prompt = text,
-#   max_tokens = 7,
-  temperature = 0
-)
+                    model = "gpt-3.5-turbo-instruct",
+                    prompt = text,
+                    max_tokens = 1500,
+                    temperature = 0
+                    )
     return response.choices[0].text.strip()
 
 def save_docx(doc):
