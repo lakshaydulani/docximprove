@@ -49,11 +49,11 @@ def improve_text_with_openai(text, api_key):
     )
     response = client.completions.create(
                     model = "gpt-3.5-turbo-instruct",
-                    prompt = "Improve the following text - " + text,
+                    prompt = "Rewrite the following text with professional business language:\n\n" + text,
                     # max_tokens = 4096,
                     # temperature = 0
                     )
-    return response.choices[0].text.strip()
+    return response.choices[0].text
 
 def save_docx(doc):
     """Save Document object to a BytesIO object and return it."""
