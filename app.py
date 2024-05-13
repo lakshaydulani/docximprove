@@ -42,7 +42,7 @@ def main():
     st.title("DOCX Content Enhancer")
 
     uploaded_file = st.file_uploader("Upload your file", type=['docx'])
-    api_key = st.secrets("OPENAI_API_KEY")
+    api_key = st.secrets["OPENAI_API_KEY"]
 
     if uploaded_file and api_key:
         with st.spinner('Processing...'):
