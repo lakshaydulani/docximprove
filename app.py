@@ -69,10 +69,10 @@ def main():
     api_key = st.secrets["OPENAI_API_KEY"]
 
     if uploaded_file and api_key:
-        with st.spinner('Processing...'):
+        with st.spinner('Working on your document...'):
             doc = load_docx(uploaded_file)
-            modify_docx_styles(doc,"modified_file.docx")
-            doc = load_docx("modified_file.docx")
+            # modify_docx_styles(doc,"modified_file.docx")
+            # doc = load_docx("modified_file.docx")
             original_text = docx_to_text(doc)
             improved_text = improve_text_with_openai(original_text, api_key)
             new_doc = text_to_docx(improved_text)
