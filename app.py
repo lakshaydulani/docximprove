@@ -29,7 +29,7 @@ def improve_text_with_openai(text, api_key):
   max_tokens = 7,
   temperature = 0
 )
-    return response['choices'][0]['text'].strip()
+    return response.choices[0].text.strip()
 
 def save_docx(doc):
     """Save Document object to a BytesIO object and return it."""
