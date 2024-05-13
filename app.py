@@ -74,9 +74,7 @@ def main():
             # modify_docx_styles(doc,"modified_file.docx")
             # doc = load_docx("modified_file.docx")
             original_text = docx_to_text(doc)
-            st.write(original_text)
             improved_text = improve_text_with_openai(original_text, api_key)
-            st.write(improved_text)
             new_doc = text_to_docx(improved_text)
             buffer = save_docx(new_doc)
 
