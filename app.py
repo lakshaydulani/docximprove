@@ -49,7 +49,7 @@ def improve_text_with_openai(text, api_key):
     )
     response = client.completions.create(
                     model = "gpt-3.5-turbo-instruct",
-                    prompt = text,
+                    prompt = "Improve the following text - " + text,
                     # max_tokens = 1500,
                     # temperature = 0
                     )
