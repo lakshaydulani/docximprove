@@ -50,7 +50,7 @@ def improve_text_with_openai(text, api_key):
     response = client.completions.create(
                     model = "gpt-3.5-turbo-instruct",
                     prompt = "Improve the following text - " + text,
-                    # max_tokens = 1500,
+                    max_tokens = 4096,
                     # temperature = 0
                     )
     return response.choices[0].text.strip()
