@@ -79,7 +79,7 @@ def main():
             buffer = save_docx(new_doc)
 
             st.success("Enhancement Complete! Download your improved DOCX below.")
-            st.download_button(label="Download DOCX", data=buffer, file_name="enhanced_document.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+            st.download_button(label="Download DOCX", data=buffer, file_name="modified_file.docx", mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document")
 
 if __name__ == "__main__":
     main()
