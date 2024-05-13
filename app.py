@@ -2,6 +2,30 @@ import streamlit as st
 from openai import OpenAI
 from docx import Document
 from io import BytesIO
+from docx.shared import Pt
+
+
+def modify_docx_styles(doc, output_path):
+    
+    for para in doc.paragraphs:
+        
+        # Check if the paragraph style is a heading style
+        if para.style.name.startswith('Heading'):
+            # Set font size for headings
+            for run in para.runs:
+                run.font.size = Pt(36)  # 36 points in half-points (36 * 20)
+        else:
+             for run in para.runs:
+                run.font.size = Pt(14)
+                
+        # Set the font style for all text
+        for run in para.runs:
+            run.font.name = "EYInterstate Light"
+            # run.font.size = Pt(14)
+    
+    # Save the modified document
+    doc.save(output_path)
+
 
 def load_docx(file):
     """Load DOCX file into a Document object."""
@@ -25,7 +49,7 @@ def improve_text_with_openai(text, api_key):
     )
     response = client.completions.create(
   model = "gpt-3.5-turbo-instruct",
-  prompt = "Say this is a test",
+  prompt = text,
   max_tokens = 7,
   temperature = 0
 )
@@ -39,7 +63,7 @@ def save_docx(doc):
     return buffer
 
 def main():
-    st.title("DOCX Content Enhancer")
+    st.title("DOCX Enhancer")
 
     uploaded_file = st.file_uploader("Upload your file", type=['docx'])
     api_key = st.secrets["OPENAI_API_KEY"]
@@ -47,6 +71,8 @@ def main():
     if uploaded_file and api_key:
         with st.spinner('Processing...'):
             doc = load_docx(uploaded_file)
+            modify_docx_styles(doc,"modified_file.docx")
+            doc = load_docx("modified_file.docx")
             original_text = docx_to_text(doc)
             improved_text = improve_text_with_openai(original_text, api_key)
             new_doc = text_to_docx(improved_text)
