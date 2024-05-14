@@ -50,9 +50,9 @@ def improve_text_with_openai(text, api_key):
     response = client.completions.create(
                     model = "gpt-3.5-turbo-instruct",
                     prompt = "Rewrite the following text with professional business language:\n\n" + text,
-                    stop = None
-                    # max_tokens = 4096,
-                    # temperature = 0
+                    stop = None,
+                    max_tokens = 4096,
+                    temperature = 0
                     )
     return response.choices[0].text
 
@@ -78,6 +78,7 @@ def main():
             st.write("Improve the following text - " + original_text)
             improved_text = improve_text_with_openai(original_text, api_key)
             st.write("Enhanced")
+            print(improved_text)
             st.write(improved_text)
             new_doc = text_to_docx(improved_text)
             buffer = save_docx(new_doc)
