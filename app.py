@@ -63,10 +63,8 @@ def save_docx(doc):
     buffer.seek(0)
     return buffer
 
-def extract_font_styles(docx_file):
-    # Load the DOCX file
-    document = Document(docx_file)
-    
+def extract_font_styles(document):
+   
     # Set to collect unique font styles
     font_styles = set()
     
@@ -99,8 +97,7 @@ def main():
             doc = load_docx(uploaded_file)
             font_styles = extract_font_styles(doc)
             if(len(font_styles) > 0):
-                st.write("Your document uses the following Font styles - " + ', '.join(font_styles))
-                st.write("Converting the document to EY Interstate Font and fixing the font size")
+                st.error("Your document uses the following Font styles - " + ', '.join(font_styles) + ". Converting the document to EY Interstate Font and fixing the font size.")
             
             modify_docx_styles(doc,"modified_file1.docx")
             doc = load_docx("modified_file1.docx")
