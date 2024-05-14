@@ -47,14 +47,14 @@ def improve_text_with_openai(text, api_key):
     client = OpenAI(
     api_key = api_key,
     )
-    response = client.completions.create(
-                    model = "gpt-3.5-turbo-instruct",
-                    prompt = "Rewrite the following text with professional business language:\n\n" + text,
-                    stop = None,
-                    max_tokens = 4096,
-                    temperature = 0
+    response = client.chat.completions.create(
+                    model = "gpt-3.5-turbo",
+                      messages=[
+    {"role": "system", "content": "You are a helpful assistant. Rewrite the following text in a business language"},
+    {"role": "user", "content": text}
+  ]
                     )
-    return response.choices[0].text
+    return response.choices[0].message.content
 
 def save_docx(doc):
     """Save Document object to a BytesIO object and return it."""
