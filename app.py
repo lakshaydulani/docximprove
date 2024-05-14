@@ -39,7 +39,7 @@ def text_to_docx(text):
     """Convert text back into a DOCX Document."""
     doc = Document()
     for line in text.split('\n'):
-        paragraph = doc.add_paragraph(line)
+        paragraph = doc.add_paragraph()
         run = paragraph.add_run(line)
         run.font.name = 'EYInterstate Light'
         
