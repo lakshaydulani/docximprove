@@ -39,7 +39,10 @@ def text_to_docx(text):
     """Convert text back into a DOCX Document."""
     doc = Document()
     for line in text.split('\n'):
-        doc.add_paragraph(line)
+        paragraph = doc.add_paragraph(line)
+        run = paragraph.add_run(line)
+        run.font.name = 'EYInterstate Light'
+        
     return doc
 
 def improve_text_with_openai(text, api_key):
@@ -96,11 +99,9 @@ def main():
         with st.spinner('Working on your document...'):
             doc = load_docx(uploaded_file)
             font_styles = extract_font_styles(doc)
-            if(len(font_styles) > 0):
-                st.error("Your document uses the following Font styles - " + ', '.join(font_styles) + ". Converting the document to EY Interstate Font and fixing the font size.")
-            
-            modify_docx_styles(doc,"modified_file1.docx")
-            doc = load_docx("modified_file1.docx")
+            if(len(font_styles) > 1):
+                st.error("Your document uses the following Font styles other than EY Interstate - " + ', '.join(font_styles) + ". Converting the document to EY Interstate Font and fixing the font size.")
+                   
             original_text = docx_to_text(doc)
             improved_text = improve_text_with_openai(original_text, api_key)
             new_doc = text_to_docx(improved_text)
