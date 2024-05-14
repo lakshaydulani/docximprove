@@ -104,6 +104,7 @@ def main():
                    
             original_text = docx_to_text(doc)
             improved_text = improve_text_with_openai(original_text, api_key)
+            st.write(improved_text)
             new_doc = text_to_docx(improved_text)
             buffer = save_docx(new_doc)
 
