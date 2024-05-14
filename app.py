@@ -63,6 +63,31 @@ def save_docx(doc):
     buffer.seek(0)
     return buffer
 
+def extract_font_styles(docx_file):
+    # Load the DOCX file
+    document = Document(docx_file)
+    
+    # Set to collect unique font styles
+    font_styles = set()
+    
+    # Iterate through each paragraph and run in the document
+    for para in document.paragraphs:
+        for run in para.runs:
+            if run.font.name is not None:
+                font_styles.add(run.font.name)
+
+    # Also check all tables
+    for table in document.tables:
+        for row in table.rows:
+            for cell in row.cells:
+                for para in cell.paragraphs:
+                    for run in para.runs:
+                        if run.font.name is not None:
+                            font_styles.add(run.font.name)
+    
+    return font_styles
+    
+
 def main():
     st.title("DOCX Enhancer")
 
@@ -72,14 +97,15 @@ def main():
     if uploaded_file and api_key:
         with st.spinner('Working on your document...'):
             doc = load_docx(uploaded_file)
-            # modify_docx_styles(doc,"modified_file.docx")
-            # doc = load_docx("modified_file.docx")
+            font_styles = extract_font_styles(doc)
+            if(len(font_styles) > 0):
+                st.write("Your document uses the following Font styles - " + ', '.join(font_styles))
+                st.write("Converting the document to EY Interstate Font and fixing the font size")
+            
+            modify_docx_styles(doc,"modified_file1.docx")
+            doc = load_docx("modified_file1.docx")
             original_text = docx_to_text(doc)
-            st.write("Improve the following text - " + original_text)
             improved_text = improve_text_with_openai(original_text, api_key)
-            st.write("Enhanced")
-            print(improved_text)
-            st.write(improved_text)
             new_doc = text_to_docx(improved_text)
             buffer = save_docx(new_doc)
 
