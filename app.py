@@ -99,7 +99,7 @@ def main():
         with st.spinner('Working on your document...'):
             doc = load_docx(uploaded_file)
             font_styles = extract_font_styles(doc)
-            if(len(font_styles) > 1):
+            if(not(len(font_styles) == 1 and "EYInterstate Light" in font_styles)):
                 st.error("Your document uses the following Font styles other than EY Interstate - " + ', '.join(font_styles) + ". Converting the document to EY Interstate Font and fixing the font size.")
                    
             original_text = docx_to_text(doc)
